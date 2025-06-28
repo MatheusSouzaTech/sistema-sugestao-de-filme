@@ -5,17 +5,28 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Scanner;
 
 public class BuscarTitulo {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
 
+        //Estrutura dinamica para busca de titulos
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite um filme para buscar: ");
+        var busca = sc.nextLine().toLowerCase();
+
+
+        String endereco = "https://www.omdbapi.com/?t=" + busca + "&apikey=e1a1dcbe";
+
+
         // Estrutura de requisição e resposta da api
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://www.omdbapi.com/?t=matrix&apikey=e1a1dcbe"))
+                .uri(URI.create(endereco))
                 .build();
 
         HttpResponse<String> response = client
