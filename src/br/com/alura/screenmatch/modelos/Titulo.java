@@ -5,10 +5,8 @@ import com.google.gson.annotations.SerializedName;
 public class Titulo implements Comparable<Titulo> {
 
     //Anotações podem agir como classe
-    //A forma que você ensina o codigo a se comportar
-    @SerializedName("Title")  //Referenciando o nome ao title json
+    //A forma que você ensina o codigo a se comportar//Referenciando o nome ao title json
     private String nome;
-    @SerializedName("Year")
     private int anoDeLancamento;
     private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
@@ -18,6 +16,12 @@ public class Titulo implements Comparable<Titulo> {
     public Titulo(String nome, int anoDeLancamento) {
         this.nome = nome;
         this.anoDeLancamento = anoDeLancamento;
+    }
+
+    public Titulo(TituloOmdb meuTituloOmdb) {
+        this.nome = meuTituloOmdb.title();
+        this.anoDeLancamento = Integer.parseInt(meuTituloOmdb.year());
+        this.duracaoEmMinutos = Integer.parseInt(meuTituloOmdb.runtime().substring(0,2)); //substring você pode estabelecer o inicio e o fim de leitura de uma serie de caracteres
     }
 
     public String getNome() {
@@ -77,8 +81,9 @@ public class Titulo implements Comparable<Titulo> {
 
     @Override
     public String toString() {
-        return  "nome: '" + nome + '\'' +
+        return "Titulo\n" +
+                "nome: '" + nome + '\'' +
                 ", anoDeLancamento: " + anoDeLancamento +
-                '}';
+                ", duracaoEmMinutos: " + duracaoEmMinutos + "min";
     }
 }
