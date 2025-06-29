@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.principal;
 
+import br.com.alura.screenmatch.excecao.ErroDeConversaoDeAnoException;
 import br.com.alura.screenmatch.modelos.Titulo;
 import br.com.alura.screenmatch.modelos.TituloOmdb;
 import com.google.gson.FieldNamingPolicy;
@@ -25,8 +26,9 @@ public class BuscarTitulo {
         var busca = sc.nextLine().toLowerCase();
 
 
-        String endereco = "https://www.omdbapi.com/?t=" + busca + "&apikey=e1a1dcbe";
+        String endereco = "https://www.omdbapi.com/?t=" + busca.replace(" ","+") + "&apikey=e1a1dcbe";
 
+        System.out.println(endereco);
 
         // Estrutura de requisição e resposta da api
         try {
@@ -64,6 +66,8 @@ public class BuscarTitulo {
             System.out.println(e.getMessage());
         }catch (IllegalArgumentException e){
             System.out.println("Algum erro de argumento na busca, verifique o endereço.");
+        }catch (ErroDeConversaoDeAnoException e){
+            System.out.println(e.getMensagem());
         }
 
         System.out.println("O programa finalizou corretamente!");

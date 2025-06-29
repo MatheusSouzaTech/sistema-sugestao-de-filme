@@ -1,6 +1,6 @@
 package br.com.alura.screenmatch.modelos;
 
-import com.google.gson.annotations.SerializedName;
+import br.com.alura.screenmatch.excecao.ErroDeConversaoDeAnoException;
 
 public class Titulo implements Comparable<Titulo> {
 
@@ -20,8 +20,12 @@ public class Titulo implements Comparable<Titulo> {
 
     public Titulo(TituloOmdb meuTituloOmdb) {
         this.nome = meuTituloOmdb.title();
+        if (meuTituloOmdb.year().length() > 4){
+            throw new ErroDeConversaoDeAnoException("Não consegui converter o ano por que tem mais de 04 caracteres");
+        }
         this.anoDeLancamento = Integer.parseInt(meuTituloOmdb.year());
         this.duracaoEmMinutos = Integer.parseInt(meuTituloOmdb.runtime().substring(0,2)); //substring você pode estabelecer o inicio e o fim de leitura de uma serie de caracteres
+
     }
 
     public String getNome() {
@@ -81,8 +85,7 @@ public class Titulo implements Comparable<Titulo> {
 
     @Override
     public String toString() {
-        return "Titulo\n" +
-                "nome: '" + nome + '\'' +
+        return  "nome: '" + nome + '\'' +
                 ", anoDeLancamento: " + anoDeLancamento +
                 ", duracaoEmMinutos: " + duracaoEmMinutos + "min";
     }
