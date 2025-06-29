@@ -1,7 +1,14 @@
 package br.com.alura.screenmatch.modelos;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Titulo implements Comparable<Titulo> {
+
+    //Anotações podem agir como classe
+    //A forma que você ensina o codigo a se comportar
+    @SerializedName("Title")  //Referenciando o nome ao title json
     private String nome;
+    @SerializedName("Year")
     private int anoDeLancamento;
     private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
@@ -66,5 +73,12 @@ public class Titulo implements Comparable<Titulo> {
     @Override
     public int compareTo(Titulo outroTitulo) {
         return this.getNome().compareTo(outroTitulo.getNome());
+    }
+
+    @Override
+    public String toString() {
+        return  "nome: '" + nome + '\'' +
+                ", anoDeLancamento: " + anoDeLancamento +
+                '}';
     }
 }
