@@ -29,41 +29,44 @@ public class BuscarTitulo {
 
 
         // Estrutura de requisição e resposta da api
-        HttpClient client = HttpClient.newHttpClient();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(endereco))
-                .build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(endereco))
+                    .build();
 
-        HttpResponse<String> response = client
-                .send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
 
-        //Estrututa de dados gson para tranformar os dados json em objeto
+            System.out.println(response.body());
 
-        String json = response.body();
+            //Estrututa de dados gson para tranformar os dados json em objeto
 
-        //FieldNamingPolicy define como os nomes dos campos java são mapeados para os nomes das propriedades JSON
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .create();
-        //Titulo meuTitulo = gson.fromJson(json, Titulo.class); //transformando a resposta json na classe titulo
-        TituloOmdb meuTituloOmdb = gson.fromJson(json, TituloOmdb.class);
-        System.out.println(meuTituloOmdb);
+            String json = response.body();
+
+            //FieldNamingPolicy define como os nomes dos campos java são mapeados para os nomes das propriedades JSON
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                    .create();
+            //Titulo meuTitulo = gson.fromJson(json, Titulo.class); //transformando a resposta json na classe titulo
+            TituloOmdb meuTituloOmdb = gson.fromJson(json, TituloOmdb.class);
+            System.out.println(meuTituloOmdb);
 
         //estrutura de tentativa e erro para identificar o erro e tratar
-        try {
+
             Titulo meuTitulo = new Titulo(meuTituloOmdb);
             System.out.println("Titulo já convertido");
             System.out.println(meuTitulo);
         }catch (NumberFormatException e){
             System.out.println("Aconteceu um erro: ");
             System.out.println(e.getMessage());
+        }catch (IllegalArgumentException e){
+            System.out.println("Algum erro de argumento na busca, verifique o endereço.");
         }
 
         System.out.println("O programa finalizou corretamente!");
-
 
     }
 }
